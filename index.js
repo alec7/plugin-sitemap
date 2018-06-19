@@ -1,5 +1,3 @@
-var fs = require('fs');
-var path = require('path');
 var url = require('url');
 var sm = require('sitemap');
 
@@ -23,9 +21,11 @@ module.exports = {
 
         // Write sitemap.xml
         "finish": function() {
+            var hostname = url.resolve(this.config.get('pluginsConfig.sitemap.hostname'), '/');
+            var path = this.config.get('pluginsConfig.sitemap.path') || '';
             var sitemap = sm.createSitemap({
                 cacheTime: 600000,
-                hostname: url.resolve(this.config.get('pluginsConfig.sitemap.hostname'), '/'),
+                hostname: hostname + path,
                 urls: [{ url: '/' }].concat(urls.slice(1))
             });
 
